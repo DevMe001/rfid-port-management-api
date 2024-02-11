@@ -8,11 +8,14 @@ import swaggerDocs from "./utils/swagger";
 import AuthRouter from "./router/user-module/auth";
 import passport from 'passport';
 import session from 'express-session';
+import cors from 'cors';
 
 
 const PORT = process.env.PORT || 8000;
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 // app.use(morgan("tiny"));
@@ -23,6 +26,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+
 
 
 app.use(passport.initialize());
