@@ -3,8 +3,7 @@ import UserController from '../../controller/user-module/users-controller';
 import passport from 'passport';
 import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
-import qs from 'qs';
-import * as CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js';
 
 const AuthRouter = express.Router();
 
@@ -38,7 +37,7 @@ passport.use(new FacebookStrategy({
         profile: profile,
         accessToken: accessToken
     };
-    console.log('User profile:', userData);
+    // console.log('User profile:', userData);
 
     return done(null, userData);
 }));
@@ -48,20 +47,30 @@ passport.use(new FacebookStrategy({
 AuthRouter.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 AuthRouter.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+ 
+    const userProfile = req.user;
 
+    const encryptedUser = CryptoJS.AES.encrypt(JSON.stringify(userProfile), 'authenticate').toString();
+
+    const encData = CryptoJS.enc.Base64.stringify(
+        CryptoJS.enc.Utf8.parse(encryptedUser)
+      );
+
+    res.redirect(`http://localhost:3000?qs=${encData}`); 
   
 });
 
 AuthRouter.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
 AuthRouter.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('http://localhost:3000'); // Redirect to homepage after successful authentication
-
     const userProfile = req.user;
 
-    const encryptedUser = CryptoJS.AES.encrypt(qs.stringify(userProfile), 'authenticate').toString();
+    const encryptedUser = CryptoJS.AES.encrypt(JSON.stringify(userProfile), 'authenticate').toString();
 
-    res.redirect(`http://localhost:3000?qs=${encryptedUser}`); 
+    const encData = CryptoJS.enc.Base64.stringify(
+        CryptoJS.enc.Utf8.parse(encryptedUser)
+      );
+    res.redirect(`http://localhost:3000?qs=${encData}`); 
 });
 
 
