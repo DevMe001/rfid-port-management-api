@@ -9,8 +9,21 @@ interface Users {
     username:string
     password:string
   }
+
+interface Account {
+	account_id?: string;
+	user_id: string;
+	displayName: string;
+	email: string;
+	photo: string;
+}
+
   
-type UserCreate = Pick<Users,keyof Users>;
+type UserCreate = Pick<Users, keyof Users>;
+type AccountDto = Pick<Account, keyof Account>;
 
 
-  export type {Users,UserCreate};
+
+
+
+  export type { Users, UserCreate, AccountDto };

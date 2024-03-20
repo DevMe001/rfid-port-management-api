@@ -1,6 +1,4 @@
 import { Sequelize } from "sequelize-typescript";
-import Users from "./models/users.model";
-
 
 
 const sequelize = new Sequelize({
@@ -16,12 +14,12 @@ const sequelize = new Sequelize({
 // Add models to the Sequelize instance
 sequelize.addModels([__dirname + './models/'],); // Add all your models here
 // Synchronize the models with the database
-sequelize.sync({ alter: true })
-  .then(() => {
-    console.log('Database synchronized successfully');
-  })
-  .catch((error) => {
-    console.error('Error synchronizing database:', error);
-  });
+// sequelize.sync({ alter: true })
+//   .then(() => {
+//     console.log('Database synchronized successfully');
+//   })
+//   .catch((error) => {
+//     console.error('Error synchronizing database:', error);
+//   });
 
 export default sequelize;
