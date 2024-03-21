@@ -24,11 +24,6 @@ export default class PassengerCarrierModel extends Model {
 	})
 	declare plate_number: string;
 
-	@Column({
-		type: DataType.DOUBLE,
-	})
-	declare carrier_fee: number;
-
 	@ForeignKey(() => VehicleTypeCarrierModel)
 	@Column({
 		type: DataType.UUID,

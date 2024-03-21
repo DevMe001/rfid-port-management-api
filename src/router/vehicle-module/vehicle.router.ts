@@ -46,7 +46,7 @@ VehicleRouter.get('/vehicles',async(_req:Request,res:Response)=>{
 			}
 });
 
-VehicleRouter.get('/vehicles/categories', async (_req: Request, res: Response) => {
+VehicleRouter.get('/vehicles/types', async (_req: Request, res: Response) => {
 	try {
 		// Assuming accountController is properly imported and instantiated
 		const response = await vehicleController.getVehicleCategory();
@@ -93,6 +93,21 @@ VehicleRouter.post('/vehicles', upload.single('vehicle_photo'), async (req: Requ
 			vehicle_type: req.body.vehicle_type ?? '',
 			vehicle_price: req.body.vehicle_price ?? '',
 		});
+
+		return res.status(200).json(reqDetails);
+	} catch (error) {
+		// Handling errors
+		console.error('Error handling file upload:', error);
+		return res.status(500).json({ error: 'Internal Server Error' });
+	}
+});
+
+
+
+VehicleRouter.post('/vehicles/type', async (_req: Request, res: Response) => {
+	try {
+
+		const reqDetails = await vehicleController.newVehicleType();
 
 		return res.status(200).json(reqDetails);
 	} catch (error) {

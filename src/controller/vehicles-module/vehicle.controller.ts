@@ -35,4 +35,10 @@ export default class VehicleController {
 			throw new Error('Internal Server Error');
 		}
 	}
+
+	@SuccessResponse('201', 'Created')
+	@Post('/type')
+	public async newVehicleType() {
+		return await vehicleCategories.generateVehicleCategories();
+	}
 }
